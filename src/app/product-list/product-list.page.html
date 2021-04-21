@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-item>
+    <ion-label class="ion-padding">
+      <h1>{{ title}}</h1>
+    </ion-label>
+    <ion-icon
+      class="ion-text-right"
+      slot="end"
+      color="dark"
+      name="bag-handle-outline"
+    >
+    </ion-icon>
+  </ion-item>
+</ion-header>
+
+<ion-content scroll="true" no-padding>
+
+  <ion-grid>
+    <ion-row class="animate__animated animate__fadeIn animate__faster">
+      <ion-col
+        size-xs="6"
+        size-sm="6"
+        size-md="3"
+        size-lg="3"
+        class="card-border"
+        *ngFor="let product of products"
+        [routerLink]="['/single-product-view',product.id]"
+      >
+        <ion-img
+          class="card-image"
+          src="{{product.imagePath}}"
+        ></ion-img>
+        <div class="ion-padding-top">
+          <h6 class="ion-text-start no-gap text-oflow-md">
+            {{ product.productTranslations[0].title }}
+          </h6>
+          <small class="ion-text-start no-gap text-oflow-md text-muted x-small"
+            >{{product.productTranslations[0].description}}</small
+          >
+          <h6 class="ion-text-start no-gap" color="dark">
+            {{product.priceAfterDiscount}}L.E
+
+            <small class="text-muted" *ngIf="product.discount"><del>{{product.price}} L.E</del></small>
+            <ion-text color="danger"
+              ><b class="ion-float-right small" *ngIf="product.discount">%{{((product.discount/product.price)*100).toFixed(1)}} Off</b></ion-text
+            >
+          </h6>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <ion-fab vertical="bottom" horizontal="end" (click)="doFilter()" slot="fixed">
+    <ion-fab-button color="dark">
+      <ion-icon name="filter-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

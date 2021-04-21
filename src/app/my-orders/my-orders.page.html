@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'My Orders' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let order of orders"
+      [routerLink]="['/track-order',order.id]"
+      class="animate__animated animate__slideInUp animate__faster"
+    >
+      <ion-label>
+        <h2>{{order.totalAmount}} L.E</h2>
+        <h3>Ordered on {{order.creationDate}}</h3>
+        <ion-text color="danger"><p>{{order.generalStatusName}}</p></ion-text>
+        <ion-row size="12">
+          <ion-avatar class="ion-avatar" *ngFor="let item of order.orderItemInfo">
+            <img src="{{item.imagePath}}" title="{{item.title}}" />
+          </ion-avatar>
+        </ion-row>
+      </ion-label>
+     
+
+        </ion-item>
+  </ion-list>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
